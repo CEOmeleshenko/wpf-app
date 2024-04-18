@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:ExamApp.Pages"
       mc:Ignorable="d"
-      Title="Список заявок" Height="450" Width="800">
+      Title="Список заявок">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
@@ -24,11 +24,12 @@
                   Grid.Row="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Номер" Binding="{Binding Number}" />
-                <DataGridTextColumn Header="Дата создания" Binding="{Binding Number}" />
-                <DataGridTextColumn Header="Тип оборудования" Binding="{Binding Number}" />
-                <DataGridTextColumn Header="Описание проблемы" Binding="{Binding Number}" />
-                <DataGridTextColumn Header="Клиент" Binding="{Binding Number}" />
-                <DataGridTextColumn Header="Статус" Binding="{Binding Number}" />
+                <DataGridTextColumn Header="Дата создания" Binding="{Binding CreatedAt}" />
+                <DataGridTextColumn Header="Оборудования" Binding="{Binding DeviceName}" />
+                <DataGridTextColumn Header="Тип проблемы" Binding="{Binding ProblemTypeNavigation.Name}" />
+                <DataGridTextColumn Header="Описание проблемы" Binding="{Binding Description}" />
+                <DataGridTextColumn Header="Клиент" Binding="{Binding Client.Login}" />
+                <DataGridTextColumn Header="Статус" Binding="{Binding StatusNavigation.Name}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

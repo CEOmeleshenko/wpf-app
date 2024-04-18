@@ -35,18 +35,18 @@ namespace ExamApp
         private void MainFrameOnNavigated(object sender, NavigationEventArgs e)
         {
             Title = "ООО \"Техносервис\" - " + (MainFrame.Content as Page)?.Title;
+            if ((MainFrame.Content as Page)?.Title != "Авторизация")
+            {
+                ExitButton.Visibility = Visibility.Visible;
+            }
         }
 
         private void ExitButton_OnClick(object sender, RoutedEventArgs e)
         {
             App.User = null;
             App.RoleTextBlock.Text = "";
+            ExitButton.Visibility = Visibility.Hidden;
             MainFrame.Navigate(new LoginPage());
-        }
-
-        private void BackButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
         }
     }
 }

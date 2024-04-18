@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ExamApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="800">
+        Title="MainWindow" Height="600" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
@@ -15,15 +15,17 @@
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Right"
                     Grid.Row="0">
-            <TextBlock Name="RoleTextBlock" 
+            <TextBlock Name="RoleTextBlock"
                        Margin="5"
                        FontSize="16"
                        VerticalAlignment="Center" />
-            <Button Click="ExitButton_OnClick"
+            <Button Name="ExitButton"
+                    Click="ExitButton_OnClick"
                     Content="Выйти"
                     Margin="5"
                     Width="80"
-                    HorizontalAlignment="Right" />
+                    HorizontalAlignment="Right"
+                    Visibility="Hidden" />
         </StackPanel>
 
         <Frame Name="MainFrame" Grid.Row="1" NavigationUIVisibility="Hidden" />

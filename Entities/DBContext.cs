@@ -15,6 +15,8 @@ public partial class DBContext : DbContext
     {
     }
 
+    public virtual DbSet<ProblemType> ProblemTypes { get; set; }
+
     public virtual DbSet<RequestList> RequestLists { get; set; }
 
     public virtual DbSet<RequestStatus> RequestStatuses { get; set; }
@@ -29,13 +31,31 @@ public partial class DBContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<ProblemType>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("problem_types");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Name)
+                .HasColumnType("text")
+                .HasColumnName("name");
+        });
+
         modelBuilder.Entity<RequestList>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("request_list");
 
+            entity.HasIndex(e => e.ProblemType, "request_list_problem_types_id_fk");
+
             entity.HasIndex(e => e.Status, "request_list_request_status_id_fk");
+
+            entity.HasIndex(e => e.WorkerId, "request_list_users_id_fk");
+
+            entity.HasIndex(e => e.ClientId, "request_list_users_id_fk_2");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.ClientId).HasColumnName("client_id");
@@ -51,7 +71,27 @@ public partial class DBContext : DbContext
             entity.Property(e => e.Number)
                 .HasColumnType("text")
                 .HasColumnName("number");
+            entity.Property(e => e.ProblemType).HasColumnName("problem_type");
             entity.Property(e => e.Status).HasColumnName("status");
+            entity.Property(e => e.WorkerId).HasColumnName("worker_id");
+
+            entity.HasOne(d => d.Client).WithMany(p => p.RequestListClients)
+                .HasForeignKey(d => d.ClientId)
+                .HasConstraintName("request_list_users_id_fk_2");
+
+            entity.HasOne(d => d.ProblemTypeNavigation).WithMany(p => p.RequestLists)
+                .HasForeignKey(d => d.ProblemType)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("request_list_problem_types_id_fk");
+
+            entity.HasOne(d => d.StatusNavigation).WithMany(p => p.RequestLists)
+                .HasForeignKey(d => d.Status)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("request_list_request_status_id_fk");
+
+            entity.HasOne(d => d.Worker).WithMany(p => p.RequestListWorkers)
+                .HasForeignKey(d => d.WorkerId)
+                .HasConstraintName("request_list_users_id_fk");
         });
 
         modelBuilder.Entity<RequestStatus>(entity =>

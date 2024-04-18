@@ -18,13 +18,14 @@ public partial class RequestListPage : Page
     private async void LoadRequest()
     {
         await using var dbContext = new DBContext();
-        var requests = await dbContext.RequestLists.ToListAsync();
+        var requests = await dbContext.
+            RequestLists
+            .Include(r => r.ProblemTypeNavigation)
+            .Include(r => r.StatusNavigation)
+            .Include(r => r.Client)
+            .Include(r => r.Worker)
+            .ToListAsync();
         ItemsDataGrid.ItemsSource = requests;
-    }
-
-    private void FilterComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        // throw new System.NotImplementedException();
     }
 
     private void AddRequestButton_OnClick(object sender, RoutedEventArgs e)
