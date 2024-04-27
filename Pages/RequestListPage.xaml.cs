@@ -18,8 +18,7 @@ public partial class RequestListPage : Page
     private async void LoadRequest()
     {
         await using var dbContext = new DBContext();
-        var requests = await dbContext.
-            RequestLists
+        var requests = await dbContext.RequestLists
             .Include(r => r.ProblemTypeNavigation)
             .Include(r => r.StatusNavigation)
             .Include(r => r.Client)
@@ -31,5 +30,13 @@ public partial class RequestListPage : Page
     private void AddRequestButton_OnClick(object sender, RoutedEventArgs e)
     {
         NavigationService?.Navigate(new AddRequestPage());
+    }
+
+    private void ItemsDataGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (ItemsDataGrid.SelectedItem is RequestList selectedItem)
+        {
+            NavigationService?.Navigate(new EditRequestPage(selectedItem));
+        }
     }
 }

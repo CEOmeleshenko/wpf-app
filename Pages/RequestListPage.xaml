@@ -21,6 +21,7 @@
 
         <DataGrid Name="ItemsDataGrid"
                   AutoGenerateColumns="False"
+                  SelectionChanged="ItemsDataGrid_OnSelectionChanged"
                   Grid.Row="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Номер" Binding="{Binding Number}" />
@@ -30,6 +31,7 @@
                 <DataGridTextColumn Header="Описание проблемы" Binding="{Binding Description}" />
                 <DataGridTextColumn Header="Клиент" Binding="{Binding Client.Login}" />
                 <DataGridTextColumn Header="Статус" Binding="{Binding StatusNavigation.Name}" />
+                <DataGridTextColumn Header="Работник" Binding="{Binding Worker.Login}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
